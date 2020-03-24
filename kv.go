@@ -31,7 +31,7 @@ func (kv *KV) Encrypt(k string, v string) (string, error) {
 	return hex.EncodeToString(b), nil
 }
 
-// Decrypt key, value
+// Decrypt key, value, lifecycle is second, 0 is no expired time.
 func (kv *KV) Decrypt(c string, k string, lifecycle int64) (string, error) {
 	b, err := hex.DecodeString(c)
 	if err != nil {
@@ -78,7 +78,7 @@ func (kv *KV) EncryptStruct(k string, v interface{}) (string, error) {
 	return hex.EncodeToString(b), nil
 }
 
-// v is point
+// Decrypt key, value, lifecycle is second, 0 is no expired time.
 func (kv *KV) DecryptStruct(c string, v interface{}, k string, lifecycle int64) error {
 	b, err := hex.DecodeString(c)
 	if err != nil {
