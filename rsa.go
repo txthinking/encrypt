@@ -10,7 +10,7 @@ import (
 	"errors"
 )
 
-// PKCS#8
+// key is private key, PKCS#8.
 func RSASignWithSHA256(data []byte, key []byte) ([]byte, error) {
 	h := sha256.New()
 	h.Write(data)
@@ -30,7 +30,7 @@ func RSASignWithSHA256(data []byte, key []byte) ([]byte, error) {
 	return b, nil
 }
 
-// nil means passed
+// key is public key, nil means passed.
 func RSAVerifyWithSHA256(data, sign, key []byte) error {
 	h := sha256.New()
 	h.Write(data)
