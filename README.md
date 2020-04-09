@@ -25,6 +25,7 @@ $ go get github.com/txthinking/encrypt
 * Encrypt key and value with expire time
 * Encrypt struct
 * RFC3986 URI Encoding
+* RSA SHA256
 
 License
 ---
