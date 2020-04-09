@@ -30,20 +30,21 @@ func RSASignWithSHA256(data []byte, key []byte) ([]byte, error) {
 	return b, nil
 }
 
-func RSAVerifyWithSHA256(data, sign, key []byte) (bool, error) {
+// nil means passed
+func RSAVerifyWithSHA256(data, sign, key []byte) error {
 	h := sha256.New()
 	h.Write(data)
 	b := h.Sum(nil)
 	block, _ := pem.Decode(key)
 	if block == nil {
-		return false, errors.New("invalid key")
+		return errors.New("invalid key")
 	}
 	k, err := x509.ParsePKIXPublicKey(block.Bytes)
 	if err != nil {
-		return false, err
+		return err
 	}
 	if err := rsa.VerifyPKCS1v15(k.(*rsa.PublicKey), crypto.SHA256, b, sign); err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }
