@@ -48,3 +48,23 @@ func RSAVerifyWithSHA256(data, sign, key []byte) error {
 	}
 	return nil
 }
+
+// key is private key, PKCS#1.
+func RSASignWithSHA256PKCS1(data []byte, key []byte) ([]byte, error) {
+	h := sha256.New()
+	h.Write(data)
+	b := h.Sum(nil)
+	block, _ := pem.Decode(key)
+	if block == nil {
+		return nil, errors.New("invalid key")
+	}
+	k, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	if err != nil {
+		return nil, err
+	}
+	b, err = rsa.SignPKCS1v15(rand.Reader, k, crypto.SHA256, b)
+	if err != nil {
+		return nil, err
+	}
+	return b, nil
+}
